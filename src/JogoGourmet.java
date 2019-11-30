@@ -36,27 +36,26 @@ public class JogoGourmet {
 
     public void perguntasDeQualidades (List<Alimento> alimentos, String tipo) {
 
-        Integer qualidadeAtual = 0;
-        List<Qualidade> qualidadesDaLinha = filterLinha(0, tipo);
-        List<String> qualidadesPerguntadas = new ArrayList<>();
+        Integer indiceAtual = 0;
+        List<Qualidade> qualidadesDaLinhaAtual = filterLinha(0, tipo);
+        List<Qualidade> qualidadesPerguntadas = new ArrayList<>();
 
-        Integer resposta;
         Integer linhaAtual = 0;
 
-        while (qualidadeAtual < qualidadesDaLinha.size()) {
+        while (indiceAtual < qualidadesDaLinhaAtual.size()) {
 
             String[] options = new String[2];
             options[0] = "Sim";
             options[1] = "Não";
 
-            resposta = JOptionPane.showOptionDialog(frame, "O prato que você pensou é " + qualidadesDaLinha.get(qualidadeAtual).getNome() +"?", "Confirme",0, JOptionPane.QUESTION_MESSAGE, null, options, null);
+            Integer resposta = JOptionPane.showOptionDialog(frame, "O prato que você pensou é " + qualidadesDaLinhaAtual.get(indiceAtual).getNome() +"?", "Confirme",0, JOptionPane.QUESTION_MESSAGE, null, options, null);
             if(resposta == 0) {
-                qualidadesPerguntadas.add( qualidadesDaLinha.get(qualidadeAtual).getNome());
-                qualidadeAtual ++;
+                qualidadesPerguntadas.add( qualidadesDaLinhaAtual.get(indiceAtual));
+                indiceAtual ++;
             } else {
-                linhaAtual = qualidadesDaLinha.get(qualidadeAtual).getLinha();
-                qualidadeAtual = 0;
-                qualidadesDaLinha = filterLinha(linhaAtual, tipo);
+                linhaAtual = qualidadesDaLinhaAtual.get(indiceAtual).getLinha();
+                indiceAtual = 0;
+                qualidadesDaLinhaAtual = filterLinha(linhaAtual, tipo);
             }
         }
 
@@ -66,12 +65,13 @@ public class JogoGourmet {
         if(acertou) {
             JOptionPane.showMessageDialog(frame, "Acertei denovo!");
         } else {
-            String nome = JOptionPane.showInputDialog(frame, "Qual prato você pensou?");
-            String qualidade = JOptionPane.showInputDialog(frame, nome + " é ____ mas " + alimentoPergunta.getNome() + " não.");
-            qualidadesPerguntadas.add(qualidade);
-            Alimento novoAlimento = new Alimento(nome, tipo, qualidadesPerguntadas);
+            String nomeDoNovoAlimento = JOptionPane.showInputDialog(frame, "Qual prato você pensou?");
+            String nomeDaNovaQualidade = JOptionPane.showInputDialog(frame, nomeDoNovoAlimento + " é ____ mas " + alimentoPergunta.getNome() + " não.");
+            Qualidade novaQualidade = new Qualidade(nomeDaNovaQualidade, tipo, this.alimentos.size(), linhaAtual);
+            qualidadesPerguntadas.add(novaQualidade);
+            Alimento novoAlimento = new Alimento(nomeDoNovoAlimento, tipo, qualidadesPerguntadas);
             this.alimentos.add(novoAlimento);
-            this.qualidades.add(new Qualidade(qualidade, tipo, this.alimentos.size(), linhaAtual));
+            this.qualidades.add(novaQualidade);
         }
     }
 

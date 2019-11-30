@@ -4,9 +4,9 @@ public class Alimento {
 
     private String nome;
     private String tipo;
-    private List<String> qualidades;
+    private List<Qualidade> qualidades;
 
-    public Alimento(String nome, String tipo, List<String> qualidades) {
+    public Alimento(String nome, String tipo, List<Qualidade> qualidades) {
         this.nome = nome;
         this.tipo = tipo;
         this.qualidades = qualidades;
@@ -28,11 +28,11 @@ public class Alimento {
         this.tipo = tipo;
     }
 
-    public List<String> getQualidades() {
+    public List<Qualidade> getQualidades() {
         return qualidades;
     }
 
-    public void setQualidades(List<String> qualidades) {
+    public void setQualidades(List<Qualidade> qualidades) {
         this.qualidades = qualidades;
     }
 
